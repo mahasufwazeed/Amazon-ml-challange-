@@ -1,0 +1,32 @@
+# Virtual Environment
+.venv/
+env/
+venv/
+
+# Python cache & bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pytest_cache/
+.coverage
+htmlcov/
+
+# Model checkpoints & large binary artifacts
+models/
+*.joblib
+*.pkl
+
+# Raw large datasets (keep empty structure or scripts only)
+*.zip
+dataset/train/*.tsv
+dataset/test/*.tsv
+!dataset/train/.gitkeep
+!dataset/test/.gitkeep
+
+# IDE / OS metadata
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
