@@ -96,6 +96,8 @@ def strip_accents(text: str) -> str:
     """
     if not text:
         return ""
+    if text.isascii():
+        return text
     nfkd_form = unicodedata.normalize("NFKD", text)
     return "".join(c for c in nfkd_form if not unicodedata.combining(c))
 
@@ -104,14 +106,17 @@ def clean_text_basic(text: Optional[str]) -> str:
     """Basic text sanitization: lowercasing, accent stripping, ampersand handling."""
     if text is None or not isinstance(text, str):
         return ""
-    # Unicode decomposition
-    text = strip_accents(text.lower())
-    # Expand ampersands
-    text = re.sub(r"&", " and ", text)
+    text_lower = text.lower()
+    # Unicode decomposition (fast path for ASCII)
+    if not text_lower.isascii():
+        text_lower = strip_accents(text_lower)
+    # Expand ampersands if present
+    if "&" in text_lower:
+        text_lower = text_lower.replace("&", " and ")
     # Remove non-alphanumeric except spaces
-    text = re.sub(r"[^a-z0-9\s]", " ", text)
+    text_clean = re.sub(r"[^a-z0-9\s]", " ", text_lower)
     # Normalize multiple whitespaces
-    return " ".join(text.split())
+    return " ".join(text_clean.split())
 
 
 def clean_business_name(name: Optional[str]) -> Tuple[str, str, str]:

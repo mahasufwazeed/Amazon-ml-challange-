@@ -12,11 +12,22 @@ __pycache__/
 htmlcov/
 
 # Model checkpoints & large binary artifacts
-models/
+models/*
+!models/.gitkeep
 *.joblib
 *.pkl
 
-# Raw large datasets (keep empty structure or scripts only)
+# Generated inference outputs (large TSV prediction files)
+output/*.tsv
+!output/.gitkeep
+
+# Temporary SQLite buffers and logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Raw large datasets (keep structure via .gitkeep)
 *.zip
 dataset/train/*.tsv
 dataset/test/*.tsv
@@ -28,5 +39,5 @@ dataset/test/*.tsv
 .vscode/
 *.swp
 *.swo
-.DS_Store
+**/.DS_Store
 Thumbs.db
